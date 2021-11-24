@@ -101,7 +101,7 @@ The only intresting file is ticketValidator.py, this is also might me our hint.
 
 After a short look i can see that this file is evaluating user input, so it might be vulnerable.
 
-# Conclusions regarding the script [a relative link](/bountynmap/ticketValidator.py)
+# Conclusions regarding the  script(see /bountynmap/ticketValidator.py)
 
 * File must to end with <mark>.md</mark>
 * First line in the file must be <mark># Skytrain Inc</mark>
