@@ -122,5 +122,10 @@ __Ticket Code:__
 
 run: <code>whoami</code> -> congrats you are root!
 
-<code>cd ~</code>
-<code>cat root.txt</code>
+```s
+cd ~
+```
+
+```s
+cat root.txt
+```
