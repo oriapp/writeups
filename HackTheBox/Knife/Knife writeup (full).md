@@ -1,3 +1,5 @@
+https://app.hackthebox.com/machines/347
+
 ### Knife - Explore and nmapping
 
 Starting with nmap to see what's runnng on the server:

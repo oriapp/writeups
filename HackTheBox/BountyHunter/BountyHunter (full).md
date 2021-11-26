@@ -1,3 +1,5 @@
+https://app.hackthebox.com/machines/359
+
 ## understanding the structure
 
 1. nmapping the server looking for open ports and hints: <code>sudo nmap -p- --min-rate 10000 -oA bountynmap/ports -v 10.10.11.100</code>
