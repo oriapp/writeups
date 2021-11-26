@@ -13,6 +13,7 @@ no forms or anything special/suspicious.
 
 Now let's check the nmap results
 ![nmap result](https://is-going-to-rick-roll.me/1637881600.png)
+<br>
 as we can see we have two ports open:
 * 22 - TCP SSH
 * 80 - TCP HTTP
@@ -72,3 +73,88 @@ and here we go, inside the first file it returned we have the user flag.
 we can use the RCE in order to print it (:
 
 ![back-door in PHP](https://is-going-to-rick-roll.me/1637882978.png)
+
+<br>
+
+## Owning the system - SSH
+
+After a doing a small resarch I could found a packege that will help us getting into the server using the RCE.
+
+(You can see more about it in: https://github.com/flast101/php-8.1.0-dev-backdoor-rce)
+
+![RCE backdoor](https://is-going-to-rick-roll.me/1637920603.png)
+
+using the backdoor_php_8.1.0-dev.py script we can accsess now to the server.
+
+we are logged as james.
+
+This user has no special permission.
+By running <code>sudo -l</code> I can see we can run only one thing "(root) NOPASSWD: /usr/bin/knife"
+
+
+##### Getting into SSH
+On the sell that the backdoor opend us we can see that it uses SSH keys to log-in.
+My first thought was to copy the private key to my machine and try to log in with that.
+
+
+```bat
+cat /home/james/.ssh/id_rsa```
+```
+![Private SSH key](https://is-going-to-rick-roll.me/1637927299.png)
+(save this on your machine)<br>
+
+
+Before trying to make the ssh connection with the key that we just found we have to make sure that the public key is inside the authorized_keys file.
+
+```bat
+cat /home/james/.ssh/authorized_keys
+```
+
+And it returned nothing, so we'll have to add the public kay by rinning 
+```bat
+cat home/james/.ssh/id_rsa.pub >> home/james/.ssh/authorized_keys
+```
+
+Now we can connect to the server via SSH
+```bat
+ssh -i id_rsa james@10.10.10.242
+```
+and we're inside!
+
+![SSH connection with the KEY](https://is-going-to-rick-roll.me/1637928878.png)
+
+<br><br>
+
+##### Finding the system flag
+
+
+
+Now, when we alrady gain accsess into the server via ssh we can look and see what files and what other things that we didn't saw we have.
+
+About files i found nothing.
+running <code>sudo -l</code> returned me
+![sudo hint](https://is-going-to-rick-roll.me/1637929088.png)
+In a first look you'll be confusd but after a short google search we can find this -> https://gtfobins.github.io/#knife
+
+![gtfobins article](https://is-going-to-rick-roll.me/1637929195.png)
+
+And this is how we are going to preform an privilege escalation attack, let's go back into the SSH and run 
+```bat
+sudo knife exec -E 'exec "/bin/sh"'
+
+
+id
+```
+
+Now we are root.
+![couldnt ask for mow hu](https://is-going-to-rick-roll.me/1637929307.png)
+
+Let's go to the main user directory and see what we have.
+
+![root.txt found](https://is-going-to-rick-roll.me/1637929371.png)
+
+
+and we have found our last flag root.txt
+
+![flag](https://is-going-to-rick-roll.me/1637929433.png)
+
