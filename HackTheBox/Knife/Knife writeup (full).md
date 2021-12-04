@@ -1,6 +1,6 @@
 https://app.hackthebox.com/machines/347
 
-### Knife - Explore and nmapping
+## Knife - Explore and nmapping
 
 Starting with nmap to see what's runnng on the server:
 ```bat
@@ -34,7 +34,7 @@ After reading a bit more about this vulnerability I can understand how to run RC
 
 
 
-### Using the vulnerabilities we found
+## Using the vulnerabilities we found
 
 
 So, after we found RCE in the website we cna be sure that this is the main vulnerability that will get give us the credentials we need for the SSH connection and etc.
@@ -159,4 +159,3 @@ Let's go to the main user directory and see what we have.
 and we have found our last flag root.txt
 
 ![flag](https://is-going-to-rick-roll.me/1637929433.png)
-
