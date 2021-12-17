@@ -1,0 +1,10 @@
+<!-- SRC{sudo gobuster dir -w ../../Helpers/SecLists/Discovery/Web-Content/raft-small-words-lowercase.txt -x php -o Sniper.txt -u http://10.10.10.151} -->
+
+
+/images               (Status: 301) [Size: 150] [--> http://10.10.10.151/images/]
+/js                   (Status: 301) [Size: 146] [--> http://10.10.10.151/js/]
+/index.php            (Status: 200) [Size: 2635]
+/css                  (Status: 301) [Size: 147] [--> http://10.10.10.151/css/]
+/user                 (Status: 301) [Size: 148] [--> http://10.10.10.151/user/]
+/blog                 (Status: 301) [Size: 148] [--> http://10.10.10.151/blog/]
+/.                    (Status: 200) [Size: 2635]

@@ -1,0 +1,12 @@
+# Nmap 7.92 scan initiated Fri Dec 17 11:00:06 2021 as: nmap -p- --min-rate 10000 -oA nmap 10.10.10.151
+Nmap scan report for 10.10.10.151
+Host is up (0.17s latency).
+Not shown: 65530 filtered tcp ports (no-response)
+PORT      STATE SERVICE
+80/tcp    open  http
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+49667/tcp open  unknown
+
+# Nmap done at Fri Dec 17 11:00:26 2021 -- 1 IP address (1 host up) scanned in 20.36 seconds

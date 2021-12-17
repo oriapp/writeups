@@ -1,0 +1,4 @@
+# Nmap 7.92 scan initiated Fri Dec 17 11:00:06 2021 as: nmap -p- --min-rate 10000 -oA nmap 10.10.10.151
+Host: 10.10.10.151 ()	Status: Up
+Host: 10.10.10.151 ()	Ports: 80/open/tcp//http///, 135/open/tcp//msrpc///, 139/open/tcp//netbios-ssn///, 445/open/tcp//microsoft-ds///, 49667/open/tcp/////	Ignored State: filtered (65530)
+# Nmap done at Fri Dec 17 11:00:26 2021 -- 1 IP address (1 host up) scanned in 20.36 seconds

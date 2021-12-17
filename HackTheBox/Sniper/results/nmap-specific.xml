@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.92 scan initiated Fri Dec 17 11:14:04 2021 as: nmap -p 80,135,139,445 -sV -sC -oA nmap-specific 10.10.10.151 -->
+<nmaprun scanner="nmap" args="nmap -p 80,135,139,445 -sV -sC -oA nmap-specific 10.10.10.151" start="1639739644" startstr="Fri Dec 17 11:14:04 2021" version="7.92" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="4" services="80,135,139,445"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="10.10.10.151" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1639739645" endtime="1639739646"><status state="up" reason="reset" reason_ttl="255"/>
+<address addr="10.10.10.151" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="135"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="msrpc" method="table" conf="3"/></port>
+<port protocol="tcp" portid="139"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="netbios-ssn" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+</ports>
+<times srtt="382" rttvar="5000" to="100000"/>
+</host>
+<runstats><finished time="1639739646" timestr="Fri Dec 17 11:14:06 2021" summary="Nmap done at Fri Dec 17 11:14:06 2021; 1 IP address (1 host up) scanned in 1.80 seconds" elapsed="1.80" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>
